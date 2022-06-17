@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Cross Platform Chat</string>
+    <string name="chat_io">Chat.io</string>
+    <string name="set_profile">Set Profile</string>
+    <string name="enter_name">Enter name</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="chats">Chats</string>
+    <string name="status">Status</string>
+    <string name="calls">Calls</string>
+    <string name="enter_email">Enter email</string>
+    <string name="welcome">Welcome</string>
+    <string name="register">Register</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="sign_in">Sign in</string>
+</resources>

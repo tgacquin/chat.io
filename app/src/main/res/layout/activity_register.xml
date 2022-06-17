@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Register">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="340dp"
+            android:layout_height="666dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar4">
+
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="320dp"
+                android:layout_height="137dp"
+                android:layout_marginTop="-120dp"
+                android:layout_marginBottom="160dp"
+                android:fontFamily="@font/merriweather_sans"
+                android:gravity="center"
+                android:includeFontPadding="true"
+                android:text="@string/register"
+                android:textSize="70sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/enteremail_reg"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:ems="10"
+                android:fontFamily="@font/merriweather_sans"
+                android:hint="Enter email"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/enterpassword_reg"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:ems="10"
+                android:fontFamily="@font/merriweather_sans"
+                android:hint="Enter Password"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/signup_reg"
+                android:layout_width="270dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="@font/merriweather_sans"
+                android:text="Sign up"
+                android:textColor="#000000"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar4"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/myapptext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chat_io"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold"></TextView>
+            </RelativeLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
