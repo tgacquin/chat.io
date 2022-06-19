@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,14 +28,17 @@ import com.firebase.ui.database.FirebaseListAdapter;
 
 
 public class Chats extends AppCompatActivity {
-
+    String chatName;
     TextView editText;
     Button sendMessage;
+    ImageView backArrow;
     private RecyclerView messages;
     FirebaseAuth mAuth;
     private FirebaseRecyclerOptions<Message> options;
     private FirebaseRecyclerAdapter<Message,MyViewHolder> adapter;
     DatabaseReference ref;
+    TextView reciever;
+    String recieverUid;
 
 
 
@@ -42,22 +46,40 @@ public class Chats extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
-
-
+        reciever = findViewById(R.id.reciever_name);
+        backArrow=findViewById(R.id.back_arrow);
         mAuth=FirebaseAuth.getInstance();
         editText=findViewById(R.id.enter_text);
         sendMessage=findViewById(R.id.send_message);
         messages=findViewById(R.id.messages);
         messages.setHasFixedSize(true);
         messages.setLayoutManager(new LinearLayoutManager(this));
-        ref=FirebaseDatabase.getInstance().getReference().child("Messages");
+        reciever.setText(getIntent().getStringExtra("name"));
+        recieverUid = getIntent().getStringExtra("uId");
+
+
+        //Let's order the users' uid's alphabetically and call that the chat room.
+        if (mAuth.getUid().compareTo(recieverUid)>0) {
+            chatName=mAuth.getUid().concat(recieverUid);
+        } else {
+            chatName=recieverUid.concat(mAuth.getUid());
+        }
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Messages/" + chatName);
+
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageTxt=editText.getText().toString().trim();
                 Message message = new Message(messageTxt,mAuth.getCurrentUser().getEmail(),0);
-                FirebaseDatabase.getInstance().getReference().child("Messages").push().setValue(message)
+                FirebaseDatabase.getInstance().getReference().child("Messages/" + chatName).push().setValue(message)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

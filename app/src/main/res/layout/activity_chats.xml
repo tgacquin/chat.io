@@ -18,17 +18,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+
+
             tools:layout_editor_absoluteX="16dp">
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF">
+
+                <ImageView
+                    android:id="@+id/back_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#121212"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+            </androidx.cardview.widget.CardView>
+
             <TextView
-                android:autoSizeTextType="uniform"
-                android:id="@+id/myapptext"
+                android:id="@+id/reciever_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/chat_io"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold"></TextView>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/merriweather_sans"
+                android:text="TextView"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent" />
         </RelativeLayout>
 
 
@@ -63,23 +84,24 @@
             android:layout_weight="1"
             android:background="@drawable/entermessagebubble"
             android:ems="10"
+            android:hint="Enter message"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColor="#000000" />
 
         <com.google.android.material.button.MaterialButton
-            app:icon="@drawable/ic_baseline_send_24"
             android:id="@+id/send_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-10dp"
             android:layout_marginRight="10dp"
-            android:backgroundTint="#1982FC"
             android:layout_weight="1"
+            android:backgroundTint="#1982FC"
             android:text="Send"
-            android:textSize="1dp"
             android:textAlignment="textStart"
-            app:cornerRadius="50dp" />
+            android:textSize="1sp"
+            app:cornerRadius="50dp"
+            app:icon="@drawable/ic_baseline_send_24" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

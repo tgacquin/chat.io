@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -20,12 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Friends extends AppCompatActivity {
 
-    TextView editText;
     private RecyclerView friends;
     FirebaseAuth mAuth;
-    private FirebaseRecyclerOptions<Message> options;
-    private FirebaseRecyclerAdapter<Message,MyViewHolder> adapter;
+    private FirebaseRecyclerOptions<User> options;
+    private FirebaseRecyclerAdapter<User,MyViewHolderFriends> adapter;
     DatabaseReference ref;
+    ImageView addFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,26 +37,53 @@ public class Friends extends AppCompatActivity {
         setContentView(R.layout.activity_friends);
 
         mAuth=FirebaseAuth.getInstance();
-        editText=findViewById(R.id.enter_text);
+        addFriend=findViewById(R.id.add_friend);
         friends=findViewById(R.id.friends);
         friends.setHasFixedSize(true);
         friends.setLayoutManager(new LinearLayoutManager(this));
-        ref= FirebaseDatabase.getInstance().getReference().child("Users");
+        ref= FirebaseDatabase.getInstance().getReference().child("Users/" + mAuth.getUid() + "/friends");
 
-        sendMessage.setOnClickListener(new View.OnClickListener() {
+        //OnClick Listener?
+
+        options=new FirebaseRecyclerOptions.Builder<User>().setQuery(ref,User.class).build();
+        adapter=new FirebaseRecyclerAdapter<User,MyViewHolderFriends>(options) {
+
+            @NonNull
+            @Override
+            public MyViewHolderFriends onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_card, parent, false);
+                return new MyViewHolderFriends(v);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull MyViewHolderFriends holder, int position, @NonNull User model) {
+                holder.friend.setText(model.getUsername());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent(view.getContext(),Chats.class);
+                        intent.putExtra("name",model.getUsername());
+                        intent.putExtra("uId",model.getuId());
+                        startActivity(intent);
+                    }
+                });
+
+
+
+            }
+        };
+
+        adapter.startListening();
+        friends.setAdapter(adapter);
+        addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String messageTxt=editText.getText().toString().trim();
-                Message message = new Message(messageTxt,mAuth.getCurrentUser().getEmail(),0);
-                FirebaseDatabase.getInstance().getReference().child("Messages").push().setValue(message)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                messages.scrollToPosition(messages.getAdapter().getItemCount()-1);
-                            }
-                        });
-                editText.setText("");
+                startActivity(new Intent(Friends.this, AddFriend.class));
             }
         });
+
+
+
     }
 }

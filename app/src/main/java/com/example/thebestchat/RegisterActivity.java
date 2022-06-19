@@ -21,8 +21,9 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     Button register;
-    EditText password, email;
+    EditText password, email, name;
     FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.enteremail_reg);
         register = findViewById(R.id.signup_reg);
         password = findViewById(R.id.enterpassword_reg);
+        name= findViewById(R.id.enter_realname);
         mAuth=FirebaseAuth.getInstance();
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -38,8 +40,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String passwordTxt = password.getText().toString().trim();
                 String emailTxt = email.getText().toString().trim();
+                String nameTxt = name.getText().toString().trim();
 
                 if (emailTxt.isEmpty()) {
+                    email.setError("Email required");
+                    email.requestFocus();
+                    return;
+                }
+
+                if (nameTxt.isEmpty()) {
                     email.setError("Email required");
                     email.requestFocus();
                     return;
@@ -63,15 +72,15 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                                     if (isNew == true) {
-                                        User user = new User(emailTxt, passwordTxt,"deez nuts");
+                                        User user = new User(emailTxt, passwordTxt,nameTxt,mAuth.getUid());
                                         FirebaseDatabase.getInstance().getReference("Users")
-                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                .child(mAuth.getCurrentUser().getUid())
                                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
                                                             Toast.makeText(RegisterActivity.this, "User has been registered successfully", Toast.LENGTH_LONG).show();
-                                                            Intent i = new Intent(RegisterActivity.this, Chats.class);
+                                                            Intent i = new Intent(RegisterActivity.this, Friends.class);
                                                             startActivity(i);
                                                             finish();
                                                         } else {
